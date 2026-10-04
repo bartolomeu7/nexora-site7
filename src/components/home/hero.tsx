@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Sparkles, Zap, Shield, Code2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 const features = [
   {
@@ -68,13 +68,13 @@ export function Hero() {
 
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
             <Button size="xl" variant="premium" asChild>
-              <a href="/projects">
+              <Link href="/projects">
                 Explore Projects
                 <ArrowRight className="ml-2 h-5 w-5" aria-hidden="true" />
-              </a>
+              </Link>
             </Button>
             <Button size="xl" variant="outline" asChild>
-              <a href="/products">View Products</a>
+              <Link href="/products">View Products</Link>
             </Button>
           </div>
 

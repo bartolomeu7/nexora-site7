@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { ExternalLink, Tag, DollarSign, Star, CheckCircle, ArrowLeft, Calendar, Shield, Download, Code2, Globe, Box } from "lucide-react";
+import { ExternalLink, Tag, Star, CheckCircle, ArrowLeft, Calendar, Shield, Download, Code2, Globe, Box } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -11,7 +11,7 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { cn, formatCurrency, formatDate } from "@/lib/utils";
-import type { Product, ChangelogEntry, FAQEntry } from "@/lib/data/products";
+import type { Product } from "@/lib/data/products";
 
 interface ProductDetailClientProps {
   product: Product;
@@ -19,7 +19,6 @@ interface ProductDetailClientProps {
 
 export function ProductDetailClient({ product }: ProductDetailClientProps) {
   const [activeTab, setActiveTab] = React.useState("overview");
-  const [currentImage, setCurrentImage] = React.useState(0);
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
 
   return (
@@ -172,7 +171,7 @@ export function ProductDetailClient({ product }: ProductDetailClientProps) {
 
           <TabsContent value="overview" className="space-y-8 animate-in">
             <section>
-              <h2 className="text-2xl font-bold mb-4">What's Included</h2>
+              <h2 className="text-2xl font-bold mb-4">What&apos;s Included</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {product.includes.map((item, index) => (
                   <motion.div

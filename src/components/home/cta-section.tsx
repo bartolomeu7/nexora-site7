@@ -1,10 +1,10 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Users, Rocket, Target, BarChart2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
 
 const stats = [
   { icon: Rocket, value: "3", label: "Active Projects" },
@@ -37,8 +37,8 @@ export function CTASection() {
               Join Us in Building the Future
             </h2>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl">
-              Whether you're a developer, designer, or product thinker — there's a place for you at NEXORA.
-              We're always looking for curious minds to collaborate with.
+              Whether you&apos;re a developer, designer, or product thinker &mdash; there&apos;s a place for you at NEXORA.
+              We&apos;re always looking for curious minds to collaborate with.
             </p>
 
             <div className="grid grid-cols-2 gap-4 mb-8">
@@ -66,13 +66,13 @@ export function CTASection() {
 
             <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
               <Button size="lg" variant="premium" asChild>
-                <a href="/contact">
+                <Link href="/contact">
                   Start a Conversation
                   <ArrowRight className="ml-2 h-5 w-5" />
-                </a>
+                </Link>
               </Button>
               <Button size="lg" variant="outline" asChild>
-                <a href="/lab">Explore Lab</a>
+                <Link href="/lab">Explore Lab</Link>
               </Button>
             </div>
           </div>

@@ -2,11 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import { ExternalLink, Tag, DollarSign, Star, CheckCircle } from "lucide-react";
-import { products, getProductStatusColor, type Product } from "@/lib/data/products";
+import { ExternalLink, Tag, Star } from "lucide-react";
+import { getProductStatusColor, type Product } from "@/lib/data/products";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 

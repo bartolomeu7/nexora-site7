@@ -4,9 +4,8 @@ export const dynamic = "force-dynamic";
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { projects, getAllProjects, type Project, type ProjectStatus, type ProjectCategory } from "@/lib/data/projects";
+import { getAllProjects, type ProjectStatus, type ProjectCategory } from "@/lib/data/projects";
 import { ProjectCard } from "@/components/projects/project-card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -47,7 +46,7 @@ export default function ProjectsPage() {
                 Projects
               </h1>
               <p className="text-lg text-muted-foreground">
-                Explore the platforms, tools, and infrastructure we're building. Each project represents
+                Explore the platforms, tools, and infrastructure we&apos;re building. Each project represents
                 our commitment to solving real problems for developers and teams.
               </p>
             </motion.div>

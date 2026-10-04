@@ -3,6 +3,7 @@
 export const dynamic = "force-dynamic";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { Target, Users, Code2, Shield, Zap, Globe, CheckCircle, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -188,7 +189,7 @@ export default function AboutPage() {
                       ))}
                     </ul>
                     <Button variant="outline" asChild>
-                      <a href="/projects?category=Platform">Explore Platforms →</a>
+                      <Link href="/projects?category=Platform">Explore Platforms →</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -219,7 +220,7 @@ export default function AboutPage() {
                       ))}
                     </ul>
                     <Button variant="outline" asChild>
-                      <a href="/projects?category=Infrastructure">Explore Infrastructure →</a>
+                      <Link href="/projects?category=Infrastructure">Explore Infrastructure →</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -250,7 +251,7 @@ export default function AboutPage() {
                       ))}
                     </ul>
                     <Button variant="outline" asChild>
-                      <a href="/projects?category=Developer Tools">Explore Tools →</a>
+                      <Link href="/projects?category=Developer Tools">Explore Tools →</Link>
                     </Button>
                   </CardContent>
                 </Card>
@@ -318,12 +319,12 @@ export default function AboutPage() {
                 Ready to Build Together?
               </h2>
               <p className="text-xl text-muted-foreground mb-10 max-w-2xl mx-auto">
-                Whether you're looking to collaborate, contribute, or just want to say hello—
-                we'd love to hear from you.
+                Whether you&apos;re looking to collaborate, contribute, or just want to say hello&mdash;
+                we&apos;d love to hear from you.
               </p>
               <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button size="lg" variant="premium" asChild>
-                  <a href="/contact">Get in Touch</a>
+                  <Link href="/contact">Get in Touch</Link>
                 </Button>
                 <Button size="lg" variant="outline" asChild>
                   <a href="https://github.com/nexora-group" target="_blank" rel="noopener noreferrer">

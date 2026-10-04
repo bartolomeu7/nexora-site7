@@ -2,7 +2,6 @@
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { useRouter } from "next/navigation";
 import {
   LayoutDashboard,
   FolderKanban,
@@ -16,7 +15,6 @@ import {
   CheckCircle,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
@@ -28,11 +26,10 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Separator } from "@/components/ui/separator";
 import { cn } from "@/lib/utils";
 import { useAuth } from "@/components/auth/auth-provider";
-import { projects, getAllProjects, type Project } from "@/lib/data/projects";
-import { products, getAllProducts, type Product } from "@/lib/data/products";
+import { getAllProjects, type Project } from "@/lib/data/projects";
+import { getAllProducts, type Product } from "@/lib/data/products";
 import Link from "next/link";
 
 const navigation = [
@@ -53,13 +50,12 @@ interface DashboardClientProps {
 }
 
 export function DashboardClient({ user }: DashboardClientProps) {
-  const router = useRouter();
-  const { signOut, session } = useAuth();
+  const { signOut } = useAuth();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("overview");
 
-  const allProjects: Project[] = getAllProjects();
-  const allProducts: Product[] = getAllProducts();
+  const allProjects = getAllProjects();
+  const allProducts = getAllProducts();
 
   return (
     <div className="flex h-screen overflow-hidden">
@@ -69,13 +65,13 @@ export function DashboardClient({ user }: DashboardClientProps) {
             <LayoutDashboard className="h-6 w-6" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="w-64 lg:w-72 p-0 lg:hidden">
-          <SidebarNavigation user={user} onNavigate={() => setSidebarOpen(false)} setActiveTab={setActiveTab} activeTab={activeTab} />
-        </SheetContent>
+<SheetContent side="left" className="w-64 lg:w-72 p-0 lg:hidden">
+            <SidebarNavigation user={user} onNavigate={() => setSidebarOpen(false)} setActiveTab={setActiveTab} activeTab={activeTab} signOut={signOut} />
+          </SheetContent>
       </Sheet>
 
       <aside className="hidden lg:flex lg:w-72 flex-col bg-card border-r border-border">
-        <SidebarNavigation user={user} setActiveTab={setActiveTab} activeTab={activeTab} />
+        <SidebarNavigation user={user} setActiveTab={setActiveTab} activeTab={activeTab} signOut={signOut} />
       </aside>
 
       <main className="flex-1 overflow-auto lg:overflow-y-auto">
@@ -102,14 +98,14 @@ function SidebarNavigation({
   onNavigate,
   setActiveTab,
   activeTab,
+  signOut,
 }: {
   user: DashboardClientProps["user"];
   onNavigate?: () => void;
   setActiveTab?: (tab: string) => void;
   activeTab?: string;
+  signOut: () => Promise<void>;
 }) {
-  const { signOut } = useAuth();
-
   const handleNavClick = (tab: string) => {
     setActiveTab?.(tab);
     onNavigate?.();
@@ -205,7 +201,7 @@ function OverviewTab({ user, projects, products }: { user: DashboardClientProps[
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold">Welcome back, {user.name?.split(" ")[0] || "there"}</h1>
-          <p className="text-muted-foreground">Here's what's happening with your projects and products.</p>
+          <p className="text-muted-foreground">Here&apos;s what&apos;s happening with your projects and products.</p>
         </div>
         <Button variant="premium" size="sm" asChild>
           <Link href="/projects">Explore Projects</Link>

@@ -3,19 +3,19 @@
 export const dynamic = "force-dynamic";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { useForm } from "react-hook-form";
-import { Mail, MessageSquare, MapPin, GitBranch, Send, Users, Loader2, CheckCircle, AlertCircle } from "lucide-react";
+import { Mail, GitBranch, Send, Users, Loader2, CheckCircle, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Toast, ToastClose, ToastDescription, ToastProvider, ToastTitle, ToastViewport } from "@/components/ui/toast";
+import { ToastProvider, ToastViewport } from "@/components/ui/toast";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
-import { cn } from "@/lib/utils";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -46,7 +46,7 @@ export default function ContactPage() {
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>();
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async () => {
     setFormStatus("loading");
     setErrorMessage("");
 
@@ -82,7 +82,7 @@ export default function ContactPage() {
                   </h1>
                   <p className="text-xl text-muted-foreground leading-relaxed mb-10">
                     Whether you have a question about our projects, want to explore a partnership,
-                    or just want to say hello—we'd love to hear from you.
+                    or just want to say hello—we&apos;d love to hear from you.
                   </p>
 
                   <div className="space-y-6">
@@ -120,7 +120,7 @@ export default function ContactPage() {
                   <Card className="glass-strong">
                     <CardHeader>
                       <CardTitle>Send us a message</CardTitle>
-                      <CardDescription>We'll get back to you within 24 hours.</CardDescription>
+                      <CardDescription>We&apos;ll get back to you within 24 hours.</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
@@ -172,7 +172,7 @@ export default function ContactPage() {
                         <div className="space-y-2">
                           <Label htmlFor="subject">Subject *</Label>
                           <Select
-                            onValueChange={(value) => {}}
+                            onValueChange={() => {}}
                             defaultValue="general"
                           >
                             <SelectTrigger
@@ -265,15 +265,15 @@ export default function ContactPage() {
                             role="status"
                           >
                             <CheckCircle className="h-4 w-4 shrink-0" />
-                            <span>Thanks for reaching out! We'll get back to you soon.</span>
+                            <span>Thanks for reaching out! We&apos;ll get back to you soon.</span>
                           </motion.div>
                         )}
 
                         <p className="text-xs text-muted-foreground text-center">
                           By submitting this form, you agree to our{" "}
-                          <a href="/privacy" className="underline hover:text-primary">Privacy Policy</a>
+                          <Link href="/privacy" className="underline hover:text-primary">Privacy Policy</Link>
                           {" "}and{" "}
-                          <a href="/terms" className="underline hover:text-primary">Terms of Service</a>
+                          <Link href="/terms" className="underline hover:text-primary">Terms of Service</Link>
                           .
                         </p>
                       </form>

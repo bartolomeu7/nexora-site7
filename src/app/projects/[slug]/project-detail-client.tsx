@@ -8,10 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { ScrollArea } from "@/components/ui/scroll-area";
+
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { cn, formatDate } from "@/lib/utils";
-import type { Project, TimelineEvent } from "@/lib/data/projects";
+import type { Project } from "@/lib/data/projects";
 
 const statusIcons = {
   "In Development": Loader2,

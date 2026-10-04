@@ -4,9 +4,8 @@ export const dynamic = "force-dynamic";
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { experiments, getAllExperiments, type Experiment, type ExperimentStatus, type ExperimentCategory } from "@/lib/data/experiments";
+import { getAllExperiments, type ExperimentStatus, type ExperimentCategory } from "@/lib/data/experiments";
 import { ExperimentCard } from "@/components/lab/experiment-card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
@@ -55,7 +54,7 @@ export default function LabPage() {
                 Lab
               </h1>
               <p className="text-lg text-muted-foreground">
-                Experiments, ideas, and technologies we're exploring. Not all of these will become products,
+                Experiments, ideas, and technologies we&apos;re exploring. Not all of these will become products,
                 but each teaches us something valuable about the future of software.
               </p>
             </motion.div>

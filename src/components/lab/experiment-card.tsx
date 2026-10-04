@@ -1,10 +1,9 @@
 "use client";
 
 import * as React from "react";
-import { motion } from "framer-motion";
-import { ExternalLink, GitBranch, Tag, Clock, Star, CheckCircle, AlertCircle, Loader2, Archive, Rocket } from "lucide-react";
-import { experiments, getExperimentStatusColor, type Experiment } from "@/lib/data/experiments";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { ExternalLink, GitBranch, Tag, Clock } from "lucide-react";
+import { getExperimentStatusColor, type Experiment } from "@/lib/data/experiments";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 

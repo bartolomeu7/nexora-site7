@@ -4,9 +4,8 @@ export const dynamic = "force-dynamic";
 
 import * as React from "react";
 import { motion } from "framer-motion";
-import { products, getAllProducts, type Product, type ProductStatus, type ProductCategory } from "@/lib/data/products";
+import { getAllProducts, type ProductStatus, type ProductCategory } from "@/lib/data/products";
 import { ProductCard } from "@/components/products/product-card";
-import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";

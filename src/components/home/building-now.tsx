@@ -1,11 +1,12 @@
 "use client";
 
 import * as React from "react";
+import Link from "next/link";
 import { motion } from "framer-motion";
 import { ExternalLink, GitBranch, Clock, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import { projects, getProjectStatusColor, type Project } from "@/lib/data/projects";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
@@ -68,10 +69,10 @@ export function BuildingNow() {
           className="mt-12 text-center"
         >
           <Button variant="outline" size="lg" asChild>
-            <a href="/projects">
+            <Link href="/projects">
               View All Projects
               <ExternalLink className="ml-2 h-4 w-4" aria-hidden="true" />
-            </a>
+            </Link>
           </Button>
         </motion.div>
       </div>

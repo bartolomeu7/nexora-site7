@@ -2,11 +2,10 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { motion } from "framer-motion";
 import { ExternalLink, GitBranch, Loader2, CheckCircle, AlertCircle, Clock } from "lucide-react";
-import { projects, getProjectStatusColor, type Project } from "@/lib/data/projects";
+import { getProjectStatusColor, type Project } from "@/lib/data/projects";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 

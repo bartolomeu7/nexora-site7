@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { User, Session, AuthError, SupabaseClient } from "@supabase/supabase-js";
+import { User, Session, AuthError } from "@supabase/supabase-js";
 import { createBrowserClient } from "@/lib/supabase";
 
 interface AuthContextType {
@@ -26,14 +26,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const supabase = createBrowserClient();
 
+  // Initialize isConfigured based on supabase availability (synchronous, no effect needed)
+  if (supabase) {
+    setIsConfigured(true);
+  } else {
+    setIsConfigured(false);
+    setLoading(false);
+  }
+
   React.useEffect(() => {
     if (!supabase) {
-      setLoading(false);
-      setIsConfigured(false);
       return;
     }
-
-    setIsConfigured(true);
 
     const getInitialSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProduct, getAllProducts, type Product } from "@/lib/data/products";
+import { getProduct, getAllProducts } from "@/lib/data/products";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProductDetailClient } from "./product-detail-client";

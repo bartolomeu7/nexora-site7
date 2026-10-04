@@ -2,7 +2,7 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Sun, Moon, LayoutDashboard, LogOut, User } from "lucide-react";
 import { cn } from "@/lib/utils";
@@ -12,8 +12,6 @@ import {
   NavigationMenuList,
   NavigationMenuItem,
   NavigationMenuTrigger,
-  NavigationMenuContent,
-  NavigationMenuLink,
   NavigationMenuIndicator,
 } from "@/components/ui/navigation-menu";
 import {
@@ -38,6 +36,7 @@ const navigation = [
 
 export function Navbar() {
   const pathname = usePathname();
+  const router = useRouter();
   const { user, signOut, session } = useAuth();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
@@ -139,14 +138,14 @@ export function Navbar() {
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => { window.location.href = "/dashboard"; }}
+                      onClick={() => router.push("/dashboard")}
                       className="flex items-center gap-2"
                     >
                       <LayoutDashboard className="h-4 w-4" />
                       Dashboard
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={() => { window.location.href = "/dashboard?tab=profile"; }}
+                      onClick={() => router.push("/dashboard?tab=profile")}
                       className="flex items-center gap-2"
                     >
                       <User className="h-4 w-4" />

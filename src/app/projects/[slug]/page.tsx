@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getProject, getAllProjects, type Project } from "@/lib/data/projects";
+import { getProject, getAllProjects } from "@/lib/data/projects";
 import { Navbar } from "@/components/layout/navbar";
 import { Footer } from "@/components/layout/footer";
 import { ProjectDetailClient } from "./project-detail-client";
