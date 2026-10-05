@@ -3,18 +3,35 @@
 import * as React from "react";
 import Link from "next/link";
 import { ExternalLink, Tag, Star } from "lucide-react";
-import { getProductStatusColor, type Product } from "@/lib/data/products";
+import { getProductStatusColor, type ProductStatus } from "@/lib/data/products";
+
+interface ProductCardProject {
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  status: string;
+  price: number;
+  originalPrice?: number;
+  currency: "USD" | "EUR" | "BRL";
+  technologies: string[];
+  thumbnail?: string;
+  cta: {
+    label: string;
+    href: string;
+  };
+}
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 interface ProductCardProps {
-  product: Product;
+  product: ProductCardProject;
 }
 
 export function ProductCard({ product }: ProductCardProps) {
-  const statusColor = getProductStatusColor(product.status);
+  const statusColor = getProductStatusColor(product.status as ProductStatus);
   const hasDiscount = product.originalPrice && product.originalPrice > product.price;
 
   return (

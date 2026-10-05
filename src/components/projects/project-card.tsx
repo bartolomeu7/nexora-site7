@@ -3,7 +3,20 @@
 import * as React from "react";
 import Link from "next/link";
 import { ExternalLink, GitBranch, Loader2, CheckCircle, AlertCircle, Clock } from "lucide-react";
-import { getProjectStatusColor, type Project } from "@/lib/data/projects";
+import { getProjectStatusColor, type ProjectStatus } from "@/lib/data/projects";
+
+interface ProjectCardProject {
+  slug: string;
+  name: string;
+  description: string;
+  category: string;
+  status: string;
+  technologies: string[];
+  thumbnail?: string;
+  links?: {
+    github?: string;
+  };
+}
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -14,16 +27,16 @@ const statusIcons = {
   "Active": CheckCircle,
   "Experimental": AlertCircle,
   "Coming Soon": Clock,
-};
+} as const;
 
 interface ProjectCardProps {
-  project: Project;
+  project: ProjectCardProject;
   featured?: boolean;
 }
 
 export function ProjectCard({ project, featured = false }: ProjectCardProps) {
-  const StatusIcon = statusIcons[project.status] || Clock;
-  const statusColor = getProjectStatusColor(project.status);
+  const StatusIcon = statusIcons[project.status as keyof typeof statusIcons] || Clock;
+  const statusColor = getProjectStatusColor(project.status as ProjectStatus);
 
   return (
     <Card className={cn(

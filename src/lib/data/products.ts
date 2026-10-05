@@ -16,7 +16,7 @@ export interface Product {
   compatibility: string[];
   version: string;
   lastUpdated: string;
-  thumbnail: string;
+  thumbnail?: string;
   gallery: string[];
   features: string[];
   includes: string[];

@@ -2,7 +2,24 @@
 
 import * as React from "react";
 import { ExternalLink, GitBranch, Tag, Clock } from "lucide-react";
-import { getExperimentStatusColor, type Experiment } from "@/lib/data/experiments";
+import { getExperimentStatusColor, type ExperimentStatus } from "@/lib/data/experiments";
+
+interface ExperimentCardExperiment {
+  slug: string;
+  name: string;
+  description: string;
+  longDescription: string;
+  category: string;
+  status: string;
+  technologies: string[];
+  startedAt: string;
+  updatedAt: string;
+  links?: {
+    github?: string;
+    demo?: string;
+    article?: string;
+  };
+}
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
@@ -13,15 +30,15 @@ const statusIcons = {
   "Validating": "✓",
   "Archived": "📦",
   "Graduated": "🚀",
-};
+} as const;
 
 interface ExperimentCardProps {
-  experiment: Experiment;
+  experiment: ExperimentCardExperiment;
 }
 
 export function ExperimentCard({ experiment }: ExperimentCardProps) {
-  const statusColor = getExperimentStatusColor(experiment.status);
-  const StatusIcon = statusIcons[experiment.status] || "🔍";
+  const statusColor = getExperimentStatusColor(experiment.status as ExperimentStatus);
+  const StatusIcon = statusIcons[experiment.status as keyof typeof statusIcons] || "🔍";
 
   return (
     <Card className="relative overflow-hidden group h-full transition-all duration-300 hover:border-primary/30 hover:shadow-glow-subtle">

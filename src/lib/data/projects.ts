@@ -10,7 +10,7 @@ export interface Project {
   category: ProjectCategory;
   status: ProjectStatus;
   technologies: string[];
-  thumbnail: string;
+  thumbnail?: string;
   gallery: string[];
   features: string[];
   timeline: TimelineEvent[];
