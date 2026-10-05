@@ -67,7 +67,7 @@ BEGIN
         AND role = 'admin'
     );
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Check if user owns the profile
 CREATE OR REPLACE FUNCTION is_own_profile(profile_user_id UUID)
@@ -75,7 +75,7 @@ RETURNS BOOLEAN AS $$
 BEGIN
     RETURN auth.uid() = profile_user_id;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Check if user is authenticated
 CREATE OR REPLACE FUNCTION is_authenticated()
@@ -83,7 +83,7 @@ RETURNS BOOLEAN AS $$
 BEGIN
     RETURN auth.uid() IS NOT NULL;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- =============================================================================
 -- CATEGORIES POLICIES

@@ -5,15 +5,12 @@ import { motion } from "framer-motion";
 import { ExperimentCard } from "@/components/lab/experiment-card";
 import { cn } from "@/lib/utils";
 
-const allStatuses = ["Exploring", "Prototyping", "Validating", "Archived", "Graduated"] as const;
-const allCategories = ["AI/ML", "Graphics", "Systems", "Web", "Research", "Tools"] as const;
-
 const statusIcons = {
-  "Exploring": "🔍",
-  "Prototyping": "🛠",
-  "Validating": "✓",
-  "Archived": "📦",
-  "Graduated": "🚀",
+  Exploring: "🔍",
+  Prototyping: "🛠",
+  Validating: "✓",
+  Archived: "📦",
+  Graduated: "🚀",
 } as const;
 
 interface LabClientProps {
@@ -66,7 +63,7 @@ export function LabClient({ experiments }: { experiments: LabClientProps["experi
         className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-12 flex-wrap"
       >
         <div className="flex flex-wrap items-center gap-2">
-          {(["All", ...["Exploring", "Prototyping", "Validating", "Archived", "Graduated"] as const]).map((status) => (
+          {(["All", "Exploring", "Prototyping", "Validating", "Archived", "Graduated"] as const).map((status) => (
             <button
               key={status}
               onClick={() => setSelectedStatus(status)}
@@ -77,13 +74,13 @@ export function LabClient({ experiments }: { experiments: LabClientProps["experi
                   : "bg-secondary text-secondary-foreground hover:bg-secondary/80"
               )}
             >
-              <span>{status === "All" ? "🔍" : (({ "Exploring": "🔍", "Prototyping": "🛠", "Validating": "✓", "Archived": "📦", "Graduated": "🚀" } as const)[status as keyof typeof statusIcons] || "🔍")}</span>
+              <span>{status === "All" ? "🔍" : statusIcons[status as keyof typeof statusIcons]}</span>
               {status}
             </button>
           ))}
         </div>
         <div className="flex flex-wrap items-center gap-2">
-          {(["All", ...["AI/ML", "Graphics", "Systems", "Web", "Research", "Tools"] as const]).map((category) => (
+          {(["All", "AI/ML", "Graphics", "Systems", "Web", "Research", "Tools"] as const).map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
@@ -115,7 +112,7 @@ export function LabClient({ experiments }: { experiments: LabClientProps["experi
             className="w-full pl-10 pr-4 py-3 rounded-xl bg-secondary/50 border border-border text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-all"
             aria-label="Search experiments"
           />
-          <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted_foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+          <svg className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
           </svg>
         </div>

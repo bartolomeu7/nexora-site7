@@ -1,6 +1,6 @@
 export type ProductCategory = "Templates" | "UI Kits" | "Boilerplates" | "Components" | "Digital Assets" | "Tools";
 
-export type ProductStatus = "Available" | "Coming Soon" | "Beta" | "Discontinued";
+export type ProductStatus = "Available" | "Coming Soon" | "Beta" | "Discontinued" | "published" | "draft" | "coming_soon" | "archived";
 
 export interface Product {
   slug: string;

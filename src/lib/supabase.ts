@@ -10,6 +10,9 @@ export function createBrowserClient(): SupabaseClient | null {
 
   if (!url || !key) {
     if (typeof window !== "undefined") {
+      if (process.env.NODE_ENV === 'production') {
+        throw new Error("Supabase environment variables not set. Auth features will be disabled.");
+      }
       console.warn("Supabase environment variables not set. Auth features will be disabled.");
     }
     return null;

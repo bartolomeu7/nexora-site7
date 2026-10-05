@@ -22,45 +22,13 @@ BEGIN
     ON CONFLICT (user_id) DO NOTHING;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Trigger to create profile on user creation
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
 CREATE TRIGGER on_auth_user_created
     AFTER INSERT ON auth.users
     FOR EACH ROW EXECUTE FUNCTION handle_new_user();
-
--- =============================================================================
--- ADMIN CHECK FUNCTIONS
--- =============================================================================
-
--- Check if current user is admin (SECURITY DEFINER to prevent manipulation)
-CREATE OR REPLACE FUNCTION is_admin()
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN EXISTS (
-        SELECT 1 FROM profiles
-        WHERE user_id = auth.uid()
-        AND role = 'admin'
-    );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Check if user owns the profile
-CREATE OR REPLACE FUNCTION is_own_profile(profile_user_id UUID)
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN auth.uid() = profile_user_id;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Check if user is authenticated
-CREATE OR REPLACE FUNCTION is_authenticated()
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN auth.uid() IS NOT NULL;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- =============================================================================
 -- UPDATED_AT TRIGGER FUNCTION
@@ -117,7 +85,7 @@ BEGIN
     ON CONFLICT (user_id) DO NOTHING;
     RETURN NEW;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 -- Trigger to create profile on user creation
 DROP TRIGGER IF EXISTS on_auth_user_created ON auth.users;
@@ -126,50 +94,9 @@ CREATE TRIGGER on_auth_user_created
     FOR EACH ROW EXECUTE FUNCTION handle_new_user();
 
 -- =============================================================================
--- HELPER FUNCTIONS FOR RLS
+-- UPDATED_AT TRIGGERS (apply to all tables with updated_at column)
 -- =============================================================================
 
--- Check if current user is admin (SECURITY DEFINER to prevent manipulation)
-CREATE OR REPLACE FUNCTION is_admin()
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN EXISTS (
-        SELECT 1 FROM profiles
-        WHERE user_id = auth.uid()
-        AND role = 'admin'
-    );
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Check if user owns the profile
-CREATE OR REPLACE FUNCTION is_own_profile(profile_user_id UUID)
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN auth.uid() = profile_user_id;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- Check if user is authenticated
-CREATE OR REPLACE FUNCTION is_authenticated()
-RETURNS BOOLEAN AS $$
-BEGIN
-    RETURN auth.uid() IS NOT NULL;
-END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
-
--- =============================================================================
--- UPDATED_AT TRIGGER FUNCTION
--- =============================================================================
-
-CREATE OR REPLACE FUNCTION update_updated_at_column()
-RETURNS TRIGGER AS $$
-BEGIN
-    NEW.updated_at = NOW();
-    RETURN NEW;
-END;
-$$ LANGUAGE plpgsql;
-
--- Apply updated_at trigger to all tables with updated_at column
 DROP TRIGGER IF EXISTS update_profiles_updated_at ON profiles;
 CREATE TRIGGER update_profiles_updated_at BEFORE UPDATE ON profiles
     FOR EACH ROW EXECUTE FUNCTION update_updated_at_column();

@@ -168,7 +168,7 @@ export async function getAllProductsSupabase(): Promise<ProductWithRelations[]> 
         throw error;
     }
 
-    return (products as ProductRow[]).map(p => ({
+    return (products as ProductRow[]).map((p: ProductRow) => ({
         slug: p.slug,
         name: p.title,
         description: p.short_description || '',
@@ -198,8 +198,8 @@ export async function getAllProductsSupabase(): Promise<ProductWithRelations[]> 
             answer: f.answer
         })) || [],
         cta: {
-            label: (p.status as string) === 'published' ? `Purchase - ${p.currency === 'USD' ? '$' : p.currency === 'EUR' ? '€' : 'R$'}${Number(p.price).toLocaleString()}` : 'Notify Me',
-            href: (p.status as string) === 'published' ? `/checkout?product=${p.slug}` : `/contact?interest=${p.slug}`
+            label: p.status === 'published' ? `Purchase - ${p.currency === 'USD' ? '$' : p.currency === 'EUR' ? '€' : 'R$'}${Number(p.price).toLocaleString()}` : 'Notify Me',
+            href: p.status === 'published' ? `/checkout?product=${p.slug}` : `/contact?interest=${p.slug}`
         }
     }));
 }
@@ -236,7 +236,7 @@ export async function getProductSupabase(slug: string) {
 
     if (!product) return null;
 
-    const p = product as ProductRow;
+    const p = product;
 
     return {
         slug: p.slug,
@@ -268,8 +268,8 @@ export async function getProductSupabase(slug: string) {
             answer: f.answer
         })) || [],
         cta: {
-            label: (p.status as string) === 'published' ? `Purchase - ${p.currency === 'USD' ? '$' : p.currency === 'EUR' ? '€' : 'R$'}${Number(p.price).toLocaleString()}` : 'Notify Me',
-            href: (p.status as string) === 'published' ? `/checkout?product=${p.slug}` : `/contact?interest=${p.slug}`
+            label: p.status === 'published' ? `Purchase - ${p.currency === 'USD' ? '$' : p.currency === 'EUR' ? '€' : 'R$'}${Number(p.price).toLocaleString()}` : 'Notify Me',
+            href: p.status === 'published' ? `/checkout?product=${p.slug}` : `/contact?interest=${p.slug}`
         }
     };
 }

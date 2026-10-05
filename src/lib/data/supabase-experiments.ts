@@ -134,7 +134,7 @@ export async function getAllExperimentsSupabase(): Promise<ExperimentWithRelatio
         throw error;
     }
 
-    return (experiments as ExperimentRow[]).map(e => ({
+    return (experiments as ExperimentRow[]).map((e: ExperimentRow) => ({
         slug: e.slug,
         name: e.title,
         description: e.description || '',
@@ -190,7 +190,9 @@ export async function getExperimentSupabase(slug: string) {
 
     if (!experiment) return null;
 
-    const e = experiment as ExperimentRow;
+    if (!experiment) return null;
+
+    const e = experiment;
 
     return {
         slug: e.slug,
@@ -198,7 +200,7 @@ export async function getExperimentSupabase(slug: string) {
         description: e.description || '',
         longDescription: e.long_description || e.description || '',
         category: (e.experiment_categories?.[0]?.categories?.name as ExperimentCategory) || 'Research',
-        categories: (e.experiment_categories?.map((ec: ExperimentCategoryRow) => ec.categories?.name).filter((n): n is string => Boolean(n)) || []) as string[],
+        categories: (e.experiment_categories?.map((ec: ExperimentCategoryRow) => ec.categories?.name).filter((n: string | undefined): n is string => Boolean(n)) || []) as string[],
         status: e.status,
         technologies: e.experiment_technologies?.map((t: ExperimentTechnologyRow) => t.technology) || [],
         thumbnail: e.thumbnail_url ?? undefined,
