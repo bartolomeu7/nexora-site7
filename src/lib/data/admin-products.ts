@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { checkAdminRole } from './admin-auth';
 import type { ProductStatus } from './products';
 
@@ -119,7 +119,7 @@ export interface AdminProductResult {
 }
 
 export async function getAdminProducts(): Promise<{ data: AdminProductRow[] | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -154,7 +154,7 @@ export async function getAdminProducts(): Promise<{ data: AdminProductRow[] | nu
 }
 
 export async function getAdminProduct(slug: string): Promise<{ data: AdminProductRow | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -193,7 +193,7 @@ export async function getAdminProduct(slug: string): Promise<{ data: AdminProduc
 }
 
 export async function createAdminProduct(input: AdminProductInput): Promise<AdminProductResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -341,7 +341,7 @@ export async function createAdminProduct(input: AdminProductInput): Promise<Admi
 }
 
 export async function updateAdminProduct(slug: string, input: Partial<AdminProductInput>): Promise<AdminProductResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -379,7 +379,7 @@ export async function updateAdminProduct(slug: string, input: Partial<AdminProdu
 }
 
 export async function publishAdminProduct(slug: string): Promise<AdminProductResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -407,7 +407,7 @@ export async function publishAdminProduct(slug: string): Promise<AdminProductRes
 }
 
 export async function unpublishAdminProduct(slug: string): Promise<AdminProductResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -435,7 +435,7 @@ export async function unpublishAdminProduct(slug: string): Promise<AdminProductR
 }
 
 export async function deleteAdminProduct(slug: string): Promise<AdminProductResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }

@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import type { Product, ProductStatus, ProductCategory, ChangelogEntry, FAQEntry } from './products';
 
 export type ProductWithRelations = Product & {
@@ -129,7 +129,7 @@ function toISODate(dateStr: string | null): string {
 }
 
 export async function getAllProductsSupabase(): Promise<ProductWithRelations[]> {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         console.warn('Supabase not configured, falling back to mock data');
         const { getAllProducts } = await import('./products');
@@ -205,7 +205,7 @@ export async function getAllProductsSupabase(): Promise<ProductWithRelations[]> 
 }
 
 export async function getProductSupabase(slug: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getProduct } = await import('./products');
         return getProduct(slug);
@@ -275,7 +275,7 @@ export async function getProductSupabase(slug: string) {
 }
 
 export async function getProductsByStatusSupabase(status: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getProductsByStatus } = await import('./products');
         return getProductsByStatus(status as ProductStatus);
@@ -292,7 +292,7 @@ export async function getProductsByStatusSupabase(status: string) {
 }
 
 export async function getProductsByCategorySupabase(category: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getProductsByCategory } = await import('./products');
         return getProductsByCategory(category as ProductCategory);
@@ -307,7 +307,7 @@ export async function getProductsByCategorySupabase(category: string) {
             )
         `)
         .eq('product_categories.category_id', (async () => {
-            const client2 = createServerClient();
+            const client2 = createServerSupabaseClient();
             if (!client2) return '';
             const { data } = await client2.from('categories').select('id').eq('slug', category).single();
             return data?.id || '';

@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { checkAdminRole } from './admin-auth';
 
 export interface AdminCategoryInput {
@@ -31,7 +31,7 @@ interface RelationRow {
 }
 
 export async function getAdminCategories(): Promise<{ data: AdminCategoryRow[] | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -54,7 +54,7 @@ export async function getAdminCategories(): Promise<{ data: AdminCategoryRow[] |
 }
 
 export async function getAdminCategory(slug: string): Promise<{ data: AdminCategoryRow | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -81,7 +81,7 @@ export async function getAdminCategory(slug: string): Promise<{ data: AdminCateg
 }
 
 export async function createAdminCategory(input: AdminCategoryInput): Promise<AdminCategoryResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -110,7 +110,7 @@ export async function createAdminCategory(input: AdminCategoryInput): Promise<Ad
 }
 
 export async function updateAdminCategory(slug: string, input: Partial<AdminCategoryInput>): Promise<AdminCategoryResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -140,7 +140,7 @@ export async function updateAdminCategory(slug: string, input: Partial<AdminCate
 }
 
 export async function deleteAdminCategory(slug: string): Promise<AdminCategoryResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }

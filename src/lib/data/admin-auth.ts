@@ -1,46 +1,55 @@
-import { createServerClient, getServerSession } from '@/lib/supabase/server';
+import { auth } from '@clerk/nextjs/server';
+import type { AppRole } from '@/lib/auth/types';
 
 export interface AdminCheckResult {
   isAdmin: boolean;
   error?: string;
+  userId?: string;
+  role?: AppRole;
 }
 
-interface ProfileRoleRow {
-  role: string;
+interface ClerkPublicMetadata {
+  role?: AppRole;
+  [key: string]: unknown;
+}
+
+interface ClerkSessionClaims {
+  sub: string;
+  publicMetadata?: ClerkPublicMetadata;
+  [key: string]: unknown;
 }
 
 /**
  * Authoritative server-side admin check.
  *
- * Source of truth is the `profiles.role` row (validated server-side),
- * with RLS as the final barrier. Never trust `user_metadata.role`
- * from the browser for authorization — it is UX-only.
+ * Source of truth is Clerk's publicMetadata.role (validated server-side).
+ * The profiles table is kept in sync via Clerk webhooks.
+ * RLS remains the final barrier.
  */
 export async function checkAdminRole(): Promise<AdminCheckResult> {
-  const client = createServerClient();
-  if (!client) {
-    return { isAdmin: false, error: 'Supabase not configured' };
-  }
+  const { userId, sessionClaims } = await auth();
 
-  const { data: { session }, error: sessionError } = await getServerSession();
-  if (sessionError || !session) {
+  if (!userId) {
     return { isAdmin: false, error: 'Not authenticated' };
   }
 
-  const { data: profile, error: profileError } = await client
-    .from('profiles')
-    .select('role')
-    .eq('user_id', session.user.id)
-    .single();
+  const claims = sessionClaims as ClerkSessionClaims | undefined;
+  const role = (claims?.publicMetadata?.role as string) || "user";
 
-  if (profileError) {
-    return { isAdmin: false, error: 'Failed to fetch profile' };
+  if (role !== 'admin') {
+    return { isAdmin: false, error: 'Not authorized', userId, role: role as AppRole };
   }
 
-  const roleRow = profile as ProfileRoleRow | null;
-  if (!roleRow || roleRow.role !== 'admin') {
-    return { isAdmin: false, error: 'Not authorized' };
-  }
+  return { isAdmin: true, userId, role: 'admin' };
+}
 
-  return { isAdmin: true };
+export async function getCurrentUserId(): Promise<string | null> {
+  const { userId } = await auth();
+  return userId;
+}
+
+export async function getCurrentRole(): Promise<string> {
+  const { sessionClaims } = await auth();
+  const claims = sessionClaims as ClerkSessionClaims | undefined;
+  return (claims?.publicMetadata?.role as string) || "user";
 }

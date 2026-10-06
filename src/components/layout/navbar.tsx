@@ -23,7 +23,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/components/auth/auth-provider";
+import { useUser, useClerk } from "@clerk/nextjs";
 
 const navigation = [
   { name: "Home", href: "/" },
@@ -37,7 +37,8 @@ const navigation = [
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { user, signOut, session } = useAuth();
+  const { user, isSignedIn } = useUser();
+  const { signOut } = useClerk();
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
@@ -115,26 +116,26 @@ export function Navbar() {
             </Button>
 
             <AnimatePresence mode="wait">
-              {session ? (
+              {isSignedIn ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger>
                     <Button variant="ghost" size="icon" className="relative h-9 w-9 rounded-xl">
                       <Avatar className="h-9 w-9">
                         <AvatarImage
-                          src={user?.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.email || "user"}`}
-                          alt={user?.user_metadata?.full_name || user?.email || "User"}
+                          src={user?.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.primaryEmailAddress?.emailAddress || "user"}`}
+                          alt={user?.fullName || user?.primaryEmailAddress?.emailAddress || "User"}
                         />
                         <AvatarFallback className="text-xs font-medium">
-                          {user?.user_metadata?.full_name
-                            ? getInitials(user.user_metadata.full_name)
-                            : user?.email?.[0]?.toUpperCase() || "U"}
+                          {user?.fullName
+                            ? getInitials(user.fullName)
+                            : user?.primaryEmailAddress?.emailAddress?.[0]?.toUpperCase() || "U"}
                         </AvatarFallback>
                       </Avatar>
                     </Button>
                   </DropdownMenuTrigger>
                   <DropdownMenuContent className="w-56 glass-strong" align="end">
                     <DropdownMenuLabel className="font-medium">
-                      {user?.user_metadata?.full_name || user?.email || "Account"}
+                      {user?.fullName || user?.primaryEmailAddress?.emailAddress || "Account"}
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
@@ -212,7 +213,7 @@ export function Navbar() {
                 </Link>
               ))}
               <hr className="border-border my-2" />
-              {!session ? (
+              {!isSignedIn ? (
                 <div className="flex flex-col gap-2">
                   <Button variant="outline" className="w-full" asChild>
                     <Link href="/login" onClick={() => setMobileMenuOpen(false)}>Sign in</Link>
@@ -222,7 +223,7 @@ export function Navbar() {
                   </Button>
                 </div>
               ) : (
-                <Button variant="outline" className="w-full" onClick={() => { signOut(); setMobileMenuOpen(false); }}>
+                <Button variant="outline" className="w-full" onClick={() => { void signOut(); setMobileMenuOpen(false); }}>
                   Sign out
                 </Button>
               )}

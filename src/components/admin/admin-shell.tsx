@@ -26,7 +26,7 @@ import {
   DropdownMenuLabel,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { useAuth } from "@/components/auth/auth-provider";
+import { useUser, useClerk } from "@clerk/nextjs";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 
 const navigation = [
@@ -39,35 +39,17 @@ const navigation = [
   { name: "Settings", href: "/admin/settings", icon: Settings },
 ];
 
-interface UserMetadata {
-  role?: "admin" | "user" | string;
-  full_name?: string;
-  email?: string;
-  avatar_url?: string;
-}
-
-/**
- * UX-ONLY role hint.
- *
- * `user_metadata` is client-visible and NOT authoritative for authorization.
- * Real authorization happens server-side (Server Actions validate the
- * `profiles.role` row) with RLS as the final barrier. This helper only
- * decides whether to render the admin chrome or the "restricted" state.
- */
-function hasAdminRoleHint(user: { user_metadata?: UserMetadata }): boolean {
-  if (!user?.user_metadata?.role) return false;
-  return user.user_metadata.role === "admin";
+function hasAdminRoleHint(user: { publicMetadata?: { role?: "admin" | "user" | string } }): boolean {
+  if (!user?.publicMetadata?.role) return false;
+  return user.publicMetadata.role === "admin";
 }
 
 export function AdminShell({ children }: { children: React.ReactNode }) {
-  const { user, loading: authLoading, signOut } = useAuth();
+  const { user, isLoaded, isSignedIn } = useUser();
+  const { signOut } = useClerk();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
 
-  // Derived directly from auth state — no effect needed (fixes setState-in-effect).
-  const hasAdminAccess = user ? hasAdminRoleHint(user) : false;
-  const loadingRole = authLoading;
-
-  if (loadingRole) {
+  if (!isLoaded) {
     return (
       <div className="flex h-screen bg-background overflow-hidden">
         <div className="flex items-center justify-center h-full">
@@ -76,6 +58,18 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
       </div>
     );
   }
+
+  if (!isSignedIn) {
+    return (
+      <div className="flex h-screen bg-background overflow-hidden">
+        <div className="flex items-center justify-center h-full">
+          <span className="text-lg">Please sign in...</span>
+        </div>
+      </div>
+    );
+  }
+
+  const hasAdminAccess = hasAdminRoleHint(user!);
 
   const adminContent = hasAdminAccess ? (
     <motion.div
@@ -144,7 +138,8 @@ export function AdminShell({ children }: { children: React.ReactNode }) {
 
 function SidebarNavigation({ onNavigate, onCloseSidebar }: { onNavigate?: () => void; onCloseSidebar?: () => void }) {
   const pathname = usePathname();
-  const { user, signOut } = useAuth();
+  const { user } = useUser();
+  const { signOut } = useClerk();
 
   const isActive = (href: string) => {
     if (href === "/admin") return pathname === "/admin";
@@ -204,24 +199,24 @@ function SidebarNavigation({ onNavigate, onCloseSidebar }: { onNavigate?: () => 
             <Button variant="ghost" className="w-full justify-start gap-3">
               <Avatar className="h-9 w-9">
                 <AvatarImage
-                  src={user?.user_metadata?.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.email || "user"}`}
-                  alt={user?.user_metadata?.full_name || user?.email || "User"}
+                  src={user?.imageUrl || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user?.primaryEmailAddress?.emailAddress || "user"}`}
+                  alt={user?.fullName || user?.primaryEmailAddress?.emailAddress || "User"}
                 />
                 <AvatarFallback className="text-xs font-medium">
-                  {user?.user_metadata?.full_name
-                    ? user.user_metadata.full_name.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
-                    : user?.email?.[0]?.toUpperCase() || "U"}
+                  {user?.fullName
+                    ? user.fullName.split(" ").map((n: string) => n[0]).join("").toUpperCase().slice(0, 2)
+                    : user?.primaryEmailAddress?.emailAddress?.[0]?.toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex-1 text-left min-w-0">
-                <p className="font-medium truncate">{user?.user_metadata?.full_name || user?.email || "User"}</p>
-                <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                <p className="font-medium truncate">{user?.fullName || user?.primaryEmailAddress?.emailAddress || "User"}</p>
+                <p className="text-xs text-muted-foreground truncate">{user?.primaryEmailAddress?.emailAddress}</p>
               </div>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
             <DropdownMenuLabel className="font-medium">
-              {user?.user_metadata?.full_name || user?.email || "Account"}
+              {user?.fullName || user?.primaryEmailAddress?.emailAddress || "Account"}
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>

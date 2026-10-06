@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { checkAdminRole } from './admin-auth';
 import type { ProjectStatus } from './projects';
 
@@ -79,7 +79,7 @@ export interface AdminProjectResult {
 }
 
 export async function getAdminProjects(): Promise<{ data: AdminProjectRow[] | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -110,7 +110,7 @@ export async function getAdminProjects(): Promise<{ data: AdminProjectRow[] | nu
 }
 
 export async function getAdminProject(slug: string): Promise<{ data: AdminProjectRow | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -145,7 +145,7 @@ export async function getAdminProject(slug: string): Promise<{ data: AdminProjec
 }
 
 export async function createAdminProject(input: AdminProjectInput): Promise<AdminProjectResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -232,7 +232,7 @@ export async function createAdminProject(input: AdminProjectInput): Promise<Admi
 }
 
 export async function updateAdminProject(slug: string, input: Partial<AdminProjectInput>): Promise<AdminProjectResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -270,7 +270,7 @@ export async function updateAdminProject(slug: string, input: Partial<AdminProje
 }
 
 export async function publishAdminProject(slug: string): Promise<AdminProjectResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -299,7 +299,7 @@ export async function publishAdminProject(slug: string): Promise<AdminProjectRes
 }
 
 export async function unpublishAdminProject(slug: string): Promise<AdminProjectResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -328,7 +328,7 @@ export async function unpublishAdminProject(slug: string): Promise<AdminProjectR
 }
 
 export async function deleteAdminProject(slug: string): Promise<AdminProjectResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }

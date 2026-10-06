@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import type { Experiment, ExperimentStatus, ExperimentCategory } from './experiments';
 
 export type ExperimentWithRelations = Experiment & {
@@ -99,7 +99,7 @@ function toISODate(dateStr: string | null): string {
 }
 
 export async function getAllExperimentsSupabase(): Promise<ExperimentWithRelations[]> {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         console.warn('Supabase not configured, falling back to mock data');
         const { getAllExperiments } = await import('./experiments');
@@ -161,7 +161,7 @@ export async function getAllExperimentsSupabase(): Promise<ExperimentWithRelatio
 }
 
 export async function getExperimentSupabase(slug: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getExperiment } = await import('./experiments');
         return getExperiment(slug);
@@ -221,7 +221,7 @@ export async function getExperimentSupabase(slug: string) {
 }
 
 export async function getExperimentsByStatusSupabase(status: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getExperimentsByStatus } = await import('./experiments');
         return getExperimentsByStatus(status as ExperimentStatus);
@@ -238,7 +238,7 @@ export async function getExperimentsByStatusSupabase(status: string) {
 }
 
 export async function getExperimentsByCategorySupabase(category: string) {
-    const client = createServerClient();
+    const client = createServerSupabaseClient();
     if (!client) {
         const { getExperimentsByCategory } = await import('./experiments');
         return getExperimentsByCategory(category as ExperimentCategory);
@@ -253,7 +253,7 @@ export async function getExperimentsByCategorySupabase(category: string) {
             )
         `)
         .eq('experiment_categories.category_id', (async () => {
-            const client2 = createServerClient();
+            const client2 = createServerSupabaseClient();
             if (!client2) return '';
             const { data } = await client2.from('categories').select('id').eq('slug', category).single();
             return data?.id || '';

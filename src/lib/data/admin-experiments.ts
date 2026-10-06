@@ -1,4 +1,4 @@
-import { createServerClient } from '@/lib/supabase/server';
+import { createServerSupabaseClient } from '@/lib/supabase/server';
 import { checkAdminRole } from './admin-auth';
 import type { ExperimentStatus } from './experiments';
 
@@ -81,7 +81,7 @@ export interface AdminExperimentResult {
 }
 
 export async function getAdminExperiments(): Promise<{ data: AdminExperimentRow[] | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -114,7 +114,7 @@ export async function getAdminExperiments(): Promise<{ data: AdminExperimentRow[
 }
 
 export async function getAdminExperiment(slug: string): Promise<{ data: AdminExperimentRow | null; error: string | null }> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { data: null, error: 'Supabase not configured' };
   }
@@ -151,7 +151,7 @@ export async function getAdminExperiment(slug: string): Promise<{ data: AdminExp
 }
 
 export async function createAdminExperiment(input: AdminExperimentInput): Promise<AdminExperimentResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -264,7 +264,7 @@ export async function createAdminExperiment(input: AdminExperimentInput): Promis
 }
 
 export async function updateAdminExperiment(slug: string, input: Partial<AdminExperimentInput>): Promise<AdminExperimentResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -300,7 +300,7 @@ export async function updateAdminExperiment(slug: string, input: Partial<AdminEx
 }
 
 export async function publishAdminExperiment(slug: string): Promise<AdminExperimentResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -328,7 +328,7 @@ export async function publishAdminExperiment(slug: string): Promise<AdminExperim
 }
 
 export async function unpublishAdminExperiment(slug: string): Promise<AdminExperimentResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }
@@ -356,7 +356,7 @@ export async function unpublishAdminExperiment(slug: string): Promise<AdminExper
 }
 
 export async function deleteAdminExperiment(slug: string): Promise<AdminExperimentResult> {
-  const client = createServerClient();
+  const client = createServerSupabaseClient();
   if (!client) {
     return { success: false, error: 'Supabase not configured' };
   }

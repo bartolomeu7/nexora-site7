@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { AuthProvider } from "@/components/auth/auth-provider";
+import { ClerkProvider } from "@clerk/nextjs";
 import "./globals.css";
 
 export const dynamic = "force-dynamic";
@@ -88,11 +88,11 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       </head>
       <body className="min-h-full flex flex-col bg-background text-foreground">
-        <AuthProvider>
+        <ClerkProvider>
           <TooltipProvider>
             {children}
           </TooltipProvider>
-        </AuthProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

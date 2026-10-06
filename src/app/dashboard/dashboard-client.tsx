@@ -27,7 +27,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { cn } from "@/lib/utils";
-import { useAuth } from "@/components/auth/auth-provider";
+import { useClerk } from "@clerk/nextjs";
 import { getAllProjects, type Project } from "@/lib/data/projects";
 import { getAllProducts, type Product } from "@/lib/data/products";
 import Link from "next/link";
@@ -50,7 +50,7 @@ interface DashboardClientProps {
 }
 
 export function DashboardClient({ user }: DashboardClientProps) {
-  const { signOut } = useAuth();
+  const { signOut } = useClerk();
   const [sidebarOpen, setSidebarOpen] = React.useState(false);
   const [activeTab, setActiveTab] = React.useState("overview");
 
